@@ -11,10 +11,10 @@ allHexStrs = [line.strip() for line in allHexStrs]
 
 allResults = {}
 
-for line in allHexStrs:
+for i, line in enumerate(allHexStrs):
     res = xorAsciiChars(bytes.fromhex(line)).items()
     maxVal = max(res, key=lambda x: x[1])[1]
-    allResults[line] = ([(word, count) for (word, count) in res if count == maxVal], maxVal)
+    allResults[line] = (i, [word for (word, count) in res if count == maxVal], maxVal)
 
 resList = allResults.items()
-pprint(sorted(resList, key=lambda x: x[1][1]))
+pprint(sorted(resList, key=lambda x: x[1][2]))
