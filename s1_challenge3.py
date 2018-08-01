@@ -1,19 +1,29 @@
 import string
+from pprint import pprint
 
-inputHexStr = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
-
-inputBytes = bytearray.fromhex(inputHexStr)
-outputBytes = bytearray(len(inputBytes))
-print(inputBytes)
-
-for char in string.ascii_letters:
-    print("Testing character: {}".format(char))
+def xorSingleChar(inputBytes, character):
+    outputBytes = bytearray(len(inputBytes))
     for i in range(len(outputBytes)):
-        outputBytes[i] = inputBytes[i] ^ ord(char)
+        outputBytes[i] = inputBytes[i] ^ character
 
-    plaintext = outputBytes.decode('utf8')
-    print(outputBytes)
+    plaintext = outputBytes.decode('utf8', errors='ignore')
+    numLets = sum([plaintext.count(letter) for letter in string.ascii_letters])
+    return (plaintext, numLets)
 
-    numLets = sum(plaintext.count(letter) for letter in string.ascii_letters)
+def xorAsciiChars(inputBytes):
+    results = {}
+    for char in range(255):
+        (plaintext, numLets) = xorSingleChar(inputBytes, char)
+        results[plaintext] = numLets
+    return results
 
-    print("Number of letters: {}".format(numLets))
+def main():
+    inputHexStr = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
+
+    inputBytes = bytes.fromhex(inputHexStr)
+    print(inputBytes)
+    res = xorAsciiChars(inputBytes).items()
+    pprint(max(res, key=lambda x: x[1]))
+
+if __name__ == '__main__':
+    main()
