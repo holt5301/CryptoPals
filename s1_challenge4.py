@@ -17,4 +17,4 @@ for i, line in enumerate(allHexStrs):
     allResults[line] = (i, [word for (word, count) in res if count == maxVal], maxVal)
 
 resList = allResults.items()
-pprint(sorted(resList, key=lambda x: x[1][2]))
+pprint(sorted(resList, key=lambda x: x[1][2], reverse=True)[:3])
