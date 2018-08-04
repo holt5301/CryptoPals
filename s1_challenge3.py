@@ -7,14 +7,14 @@ def xorSingleChar(inputBytes, character):
         outputBytes[i] = inputBytes[i] ^ character
 
     plaintext = outputBytes.decode('utf8', errors='ignore')
-    numLets = sum([plaintext.count(letter) for letter in string.ascii_letters])
-    return (plaintext, numLets)
+    numLets = sum([plaintext.count(letter) for letter in string.ascii_letters + ' '])
+    return numLets
 
 def xorAsciiChars(inputBytes):
     results = {}
     for char in range(255):
-        (plaintext, numLets) = xorSingleChar(inputBytes, char)
-        results[plaintext] = numLets
+        numLets = xorSingleChar(inputBytes, char)
+        results[char] = numLets
     return results
 
 def main():
